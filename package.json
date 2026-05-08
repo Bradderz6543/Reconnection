@@ -1,7 +1,7 @@
 {
-  "name": "hullaballoo",
+  "name": "reconnection",
   "version": "1.0.0",
-  "description": "Hullabaloo Shipley homepage",
+  "description": "Reconnection homepage",
   "type": "module",
   "scripts": {
     "dev": "astro dev",
