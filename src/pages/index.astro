@@ -1,0 +1,439 @@
+---
+import {
+  ArrowRight,
+  Beer,
+  CalendarDays,
+  Clock,
+  Facebook,
+  Guitar,
+  Instagram,
+  Mail,
+  MapPin,
+  Music2,
+  Phone,
+  UsersRound,
+  Wine,
+} from 'lucide-astro';
+import '../styles/global.css';
+
+const navItems = ['Home', "What's on", 'Drinks', 'About', 'Private hire', 'Gallery', 'Contact'];
+
+const featureCards = [
+  {
+    title: 'Craft Drinks',
+    text: 'Local beers, craft ales, spirits, wines and softs behind the bar.',
+    icon: Beer,
+  },
+  {
+    title: 'Live Music & Events',
+    text: 'From intimate acoustic nights to DJ sets, talks and local gatherings.',
+    icon: Guitar,
+  },
+  {
+    title: 'Community Space',
+    text: 'A welcoming place for arts, culture, meetups and good company.',
+    icon: UsersRound,
+  },
+  {
+    title: 'Private Hire',
+    text: 'Birthdays, work dos, celebrations and relaxed get-togethers.',
+    icon: Wine,
+  },
+];
+
+const events = [
+  {
+    day: '30',
+    month: 'May',
+    weekday: 'Fri',
+    time: '7:30pm - late',
+    title: 'Open Mic Night',
+    text: 'All talents welcome for a friendly night of local performers.',
+    price: 'Free entry',
+    image:
+      'https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&w=900&q=80',
+  },
+  {
+    day: '7',
+    month: 'Jun',
+    weekday: 'Sat',
+    time: '8:00pm - 11:00pm',
+    title: 'Live Music Night',
+    text: 'Warm acoustic sounds from local artists and touring guests.',
+    price: 'Tickets TBC',
+    image:
+      'https://images.unsplash.com/photo-1510915361894-db8b60106cb1?auto=format&fit=crop&w=900&q=80',
+  },
+  {
+    day: '14',
+    month: 'Jun',
+    weekday: 'Sat',
+    time: '10:00pm - late',
+    title: 'Vinyl & DJ Set',
+    text: 'Classic tunes, good beer and a lively Saturday crowd.',
+    price: 'Free entry',
+    image:
+      'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=900&q=80',
+  },
+];
+
+const galleryImages = [
+  '/images/interior.png',
+  '/images/interior2.png',
+  '/images/exterior.png',
+  '/images/party.png',
+  '/images/bar beers.png',
+];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Hullabaloo Shipley, a cosy bar and community venue for drinks, music, events and private hire."
+    />
+    <title>Hullabaloo Shipley | Bar, Events & Community Venue</title>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="Hullabaloo Shipley home">
+        <span class="brand-main">Hullabaloo</span>
+        <span class="brand-sub">Shipley</span>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <nav class="main-nav" id="main-nav" aria-label="Primary navigation">
+        {
+          navItems.map((item) => (
+            <a href={`#${item.toLowerCase().replaceAll(' ', '-').replaceAll("'", '')}`}>{item}</a>
+          ))
+        }
+      </nav>
+      <div class="social-links" aria-label="Social links">
+        <a href="#" aria-label="Instagram"><Instagram size={20} /></a>
+        <a href="#" aria-label="Facebook"><Facebook size={20} /></a>
+      </div>
+      <a class="header-cta" href="#contact">Book a table</a>
+    </header>
+
+    <main id="top">
+      <section class="hero" id="home">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+          <h1>Shipley's cosy bar, events space & community venue</h1>
+          <p>
+            Independent, welcoming and a little bit eclectic. Join us for craft drinks,
+            live music, good times and great people in the heart of Shipley.
+          </p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#whats-on">See what's on</a>
+            <a class="button button-secondary" href="#contact">Book a table</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="features" id="drinks" aria-label="Venue highlights">
+        <div class="feature-grid">
+          {
+            featureCards.map(({ title, text, icon: Icon }) => (
+              <article class="feature">
+                <Icon size={46} stroke-width={2.3} />
+                <h2>{title}</h2>
+                <p>{text}</p>
+              </article>
+            ))
+          }
+        </div>
+      </section>
+
+      <section class="events-section" id="whats-on">
+        <div class="section-bar">
+          <div class="section-heading">
+            <Music2 size={30} aria-hidden="true" />
+            <h2>What's On</h2>
+            <p>Live music. Events. Good times.</p>
+          </div>
+          <a class="button button-secondary" href="#">View all events</a>
+        </div>
+        <div class="event-grid">
+          {
+            events.map((event) => (
+              <article class="event-card">
+                <div class="event-image" style={`--event-image: url('${event.image}')`}>
+                  <div class="date-badge">
+                    <span>{event.weekday}</span>
+                    <strong>{event.day}</strong>
+                    <span>{event.month}</span>
+                  </div>
+                </div>
+                <div class="event-body">
+                  <h3>{event.title}</h3>
+                  <p>{event.text}</p>
+                  <div class="event-meta">
+                    <span><Clock size={15} /> {event.time}</span>
+                    <strong>{event.price}</strong>
+                  </div>
+                </div>
+              </article>
+            ))
+          }
+        </div>
+      </section>
+
+      <section class="about-band" id="about">
+        <div class="about-card">
+          <img
+            src="/images/interior1.png"
+            alt="Hullabaloo Shipley interior"
+            loading="lazy"
+          />
+          <div class="about-copy">
+            <p class="eyebrow">About Hullabaloo Shipley</p>
+            <h2>Your local spot for good times & great people.</h2>
+            <p>
+              Hullabaloo is built around good drinks, warm welcomes and memorable nights.
+              By day, it is a relaxed place to meet and unwind. By night, it comes alive with
+              music, events and conversation.
+            </p>
+            <a class="button button-primary" href="#contact">Learn more about us</a>
+          </div>
+          <aside class="support-card" id="private-hire">
+            <p class="eyebrow">Support Local</p>
+            <h3>Love local.</h3>
+            <p>We champion local brewers, artists, musicians and independent spirit.</p>
+          </aside>
+        </div>
+      </section>
+
+      <section class="gallery-strip" id="gallery">
+        <div class="gallery-intro">
+          <h2>Gallery</h2>
+          <p>A peek inside</p>
+          <a class="button button-secondary" href="#">View full gallery</a>
+        </div>
+        <div class="gallery-row">
+          {
+            galleryImages.map((image, index) => (
+              <img src={image} alt={`Hullabaloo placeholder gallery image ${index + 1}`} />
+            ))
+          }
+        </div>
+      </section>
+
+      <section class="contact-panel" id="contact">
+        <div class="contact-details">
+          <p class="eyebrow">Come Say Hello</p>
+          <h2>Find us in Shipley.</h2>
+          <p class="open-status" data-open-status>
+            <span class="status-dot" aria-hidden="true"></span>
+            <span>Checking opening hours</span>
+          </p>
+          <p><MapPin size={18} /> 41 Westgate, Shipley, BD18 3QX</p>
+          <p><Phone size={18} /> 07399 036526</p>
+          <p><Mail size={18} /> info@hullabalooshipley.org.uk</p>
+          <div class="hours-list">
+            <h3><CalendarDays size={18} /> Opening Hours</h3>
+            <dl>
+              <div>
+                <dt>Mon</dt>
+                <dd>Closed</dd>
+              </div>
+              <div>
+                <dt>Tue</dt>
+                <dd>3pm - 10pm</dd>
+              </div>
+              <div>
+                <dt>Wed - Thu</dt>
+                <dd>3pm - 11pm</dd>
+              </div>
+              <div>
+                <dt>Fri - Sat</dt>
+                <dd>12pm - 11pm</dd>
+              </div>
+              <div>
+                <dt>Sun</dt>
+                <dd>12pm - 6pm</dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+        <div class="map-card" aria-label="Decorative map placeholder">
+          <div class="map-pin"><MapPin size={34} /></div>
+          <span>Hullabaloo</span>
+        </div>
+        <div class="newsletter">
+          <p class="eyebrow">Stay In The Loop</p>
+          <h2>Gig news, offers and updates.</h2>
+          <form>
+            <label for="email">Email address</label>
+            <div class="signup-row">
+              <input id="email" type="email" placeholder="Your email address" />
+              <button type="submit"><ArrowRight size={20} /><span>Subscribe</span></button>
+            </div>
+          </form>
+          <div class="footer-social">
+            <a href="#" aria-label="Instagram"><Instagram size={18} /></a>
+            <a href="#" aria-label="Facebook"><Facebook size={18} /></a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div>
+          <a class="brand footer-brand" href="#top" aria-label="Hullabaloo Shipley home">
+            <span class="brand-main">Hullabaloo</span>
+            <span class="brand-sub">Shipley</span>
+          </a>
+          <p>Independent bar, events space and community venue in the heart of Shipley.</p>
+          <div class="footer-social">
+            <a href="#" aria-label="Instagram"><Instagram size={18} /></a>
+            <a href="#" aria-label="Facebook"><Facebook size={18} /></a>
+          </div>
+        </div>
+        <div>
+          <h2>Find Us</h2>
+          <p><MapPin size={18} /> 41 Westgate, Shipley, BD18 3QX</p>
+          <p><CalendarDays size={18} /> Mon closed, Tue from 3pm, Fri - Sun from 12pm</p>
+        </div>
+        <div>
+          <h2>Get In Touch</h2>
+          <p><Mail size={18} /> info@hullabalooshipley.org.uk</p>
+          <p><Phone size={18} /> 07399 036526</p>
+        </div>
+        <div>
+          <h2>Stay In The Loop</h2>
+          <p>Sign up for news, events and updates.</p>
+          <a class="button button-secondary" href="#">Sign up</a>
+        </div>
+      </div>
+      <p class="copyright">&copy; 2026 Hullabaloo Shipley. All rights reserved.</p>
+    </footer>
+
+    <script>
+      const toggle = document.querySelector('.nav-toggle');
+      const nav = document.querySelector('.main-nav');
+      const navLinks = [...document.querySelectorAll('.main-nav a')];
+      const openStatus = document.querySelector('[data-open-status]');
+      const sections = navLinks
+        .map((link) => {
+          const id = link.getAttribute('href')?.slice(1);
+          const section = id ? document.getElementById(id) : null;
+          return section ? { id, link, section } : null;
+        })
+        .filter(Boolean);
+
+      const setActiveLink = (id) => {
+        navLinks.forEach((link) => {
+          const isActive = link.getAttribute('href') === `#${id}`;
+          link.classList.toggle('is-active', isActive);
+          if (isActive) {
+            link.setAttribute('aria-current', 'page');
+          } else {
+            link.removeAttribute('aria-current');
+          }
+        });
+      };
+
+      setActiveLink('home');
+
+      toggle?.addEventListener('click', () => {
+        const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+        toggle.setAttribute('aria-expanded', String(!isOpen));
+        nav?.classList.toggle('is-open', !isOpen);
+      });
+
+      navLinks.forEach((link) => {
+        link.addEventListener('click', () => {
+          const id = link.getAttribute('href')?.slice(1);
+          if (id) setActiveLink(id);
+          toggle?.setAttribute('aria-expanded', 'false');
+          nav?.classList.remove('is-open');
+        });
+      });
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          const visible = entries
+            .filter((entry) => entry.isIntersecting)
+            .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+          if (visible?.target?.id) setActiveLink(visible.target.id);
+        },
+        {
+          rootMargin: '-35% 0px -50% 0px',
+          threshold: [0.1, 0.25, 0.5, 0.75],
+        },
+      );
+
+      sections.forEach(({ section }) => observer.observe(section));
+
+      const openingHours = [
+        null,
+        { open: '15:00', close: '22:00' },
+        { open: '15:00', close: '23:00' },
+        { open: '15:00', close: '23:00' },
+        { open: '12:00', close: '23:00' },
+        { open: '12:00', close: '23:00' },
+        { open: '12:00', close: '18:00' },
+      ];
+
+      const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+      const toMinutes = (time) => {
+        const [hours, minutes] = time.split(':').map(Number);
+        return hours * 60 + minutes;
+      };
+
+      const toDisplayTime = (time) => {
+        const [hourString, minuteString] = time.split(':');
+        const hour = Number(hourString);
+        const suffix = hour >= 12 ? 'pm' : 'am';
+        const displayHour = hour % 12 || 12;
+        return `${displayHour}${minuteString === '00' ? '' : `:${minuteString}`}${suffix}`;
+      };
+
+      const updateOpenStatus = () => {
+        if (!openStatus) return;
+
+        const now = new Date();
+        const currentDay = now.getDay();
+        const currentMinutes = now.getHours() * 60 + now.getMinutes();
+        const today = openingHours[currentDay === 0 ? 6 : currentDay - 1];
+
+        if (today && currentMinutes >= toMinutes(today.open) && currentMinutes < toMinutes(today.close)) {
+          openStatus.classList.add('is-open');
+          openStatus.classList.remove('is-closed');
+          openStatus.querySelector('span:last-child').textContent = `Open now until ${toDisplayTime(today.close)}`;
+          return;
+        }
+
+        for (let offset = 0; offset < 7; offset += 1) {
+          const date = new Date(now);
+          date.setDate(now.getDate() + offset);
+          const day = date.getDay();
+          const schedule = openingHours[day === 0 ? 6 : day - 1];
+          const opensLaterToday = offset === 0 && schedule && currentMinutes < toMinutes(schedule.open);
+
+          if (schedule && (offset > 0 || opensLaterToday)) {
+            const label = offset === 0 ? 'today' : dayNames[day];
+            openStatus.classList.add('is-closed');
+            openStatus.classList.remove('is-open');
+            openStatus.querySelector('span:last-child').textContent =
+              `Closed now, opens ${label} at ${toDisplayTime(schedule.open)}`;
+            return;
+          }
+        }
+      };
+
+      updateOpenStatus();
+      setInterval(updateOpenStatus, 60000);
+    </script>
+  </body>
+</html>
