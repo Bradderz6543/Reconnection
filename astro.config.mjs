@@ -2,6 +2,7 @@ import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  site: 'https://hullabalooshipley.co.uk',
+  site: 'https://bradderz6543.github.io',
+  base: '/hullaballoo',
   integrations: [sitemap()],
 });

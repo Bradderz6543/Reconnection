@@ -179,7 +179,7 @@ section {
   align-items: center;
   padding: clamp(80px, 8vw, 118px) 0 clamp(88px, 9vw, 132px);
   overflow: hidden;
-  background-image: url('/images/header.png');
+  background-image: url('../images/header.png');
   background-position: center right;
   background-size: cover;
 }
