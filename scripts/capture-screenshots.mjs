@@ -11,7 +11,7 @@ const viewports = [
 
 const sections = [
   ['hero', '.hero'],
-  ['features', '.features'],
+  ['features', '.features-strip'],
   ['events', '.events-section'],
   ['about', '.about-band'],
   ['gallery', '.gallery-strip'],
@@ -39,15 +39,40 @@ async function waitForImages() {
   });
 }
 
+async function preparePage() {
+  await page.evaluate(async () => {
+    document.querySelector('astro-dev-toolbar')?.remove();
+
+    const step = Math.max(window.innerHeight * 0.75, 500);
+    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+    for (let y = 0; y <= maxScroll; y += step) {
+      window.scrollTo(0, y);
+      await new Promise((resolve) => setTimeout(resolve, 100));
+    }
+    window.scrollTo(0, 0);
+  });
+  await waitForImages();
+  await page.waitForTimeout(250);
+}
+
 for (const viewport of viewports) {
   await page.setViewportSize({ width: viewport.width, height: viewport.height });
   await page.goto(baseUrl, { waitUntil: 'networkidle' });
-  await waitForImages();
+  await preparePage();
   await page.screenshot({
     path: `screenshots/home-${viewport.name}.png`,
     fullPage: true,
   });
 }
+
+await page.setViewportSize({ width: 390, height: 850 });
+await page.goto(baseUrl, { waitUntil: 'networkidle' });
+await preparePage();
+await page.locator('.nav-toggle').click();
+await page.screenshot({
+  path: 'screenshots/mobile-nav-open.png',
+  fullPage: false,
+});
 
 for (const viewport of [
   { name: 'desktop', width: 1440, height: 950 },
@@ -55,11 +80,13 @@ for (const viewport of [
 ]) {
   await page.setViewportSize({ width: viewport.width, height: viewport.height });
   await page.goto(baseUrl, { waitUntil: 'networkidle' });
-  await waitForImages();
+  await preparePage();
+  await page.addStyleTag({ content: '.site-header { display: none !important; }' });
 
   for (const [name, selector] of sections) {
     const locator = page.locator(selector).first();
-    await locator.scrollIntoViewIfNeeded();
+    await locator.evaluate((element) => element.scrollIntoView({ block: 'start' }));
+    await page.evaluate(() => window.scrollBy(0, -110));
     await page.waitForTimeout(250);
     await locator.screenshot({
       path: `screenshots/section-${viewport.name}-${name}.png`,

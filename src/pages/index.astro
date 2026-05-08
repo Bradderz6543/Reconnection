@@ -21,73 +21,73 @@ const base = import.meta.env.BASE_URL.endsWith('/')
   : `${import.meta.env.BASE_URL}/`;
 const asset = (path: string) => `${base}${path.replace(/^\//, '')}`;
 
-const navItems = ['Home', "What's on", 'Drinks', 'About', 'Private hire', 'Gallery', 'Contact'];
+const navItems = ["What's on", 'Drinks', 'About', 'Private hire', 'Gallery', 'Contact'];
 
 const featureCards = [
   {
     title: 'Craft Drinks',
-    text: 'Local beers, craft ales, spirits, wines and softs behind the bar.',
+    text: 'Local beers, craft ales, cocktails & quality wines.',
     icon: Beer,
   },
   {
-    title: 'Live Music & Events',
-    text: 'From intimate acoustic nights to DJ sets, talks and local gatherings.',
+    title: 'Live Music',
+    text: 'Local talent, open mic nights & special gigs.',
     icon: Guitar,
   },
   {
     title: 'Community Space',
-    text: 'A welcoming place for arts, culture, meetups and good company.',
+    text: 'A welcoming space for everyone in Shipley.',
     icon: UsersRound,
   },
   {
     title: 'Private Hire',
-    text: 'Birthdays, work dos, celebrations and relaxed get-togethers.',
+    text: 'Parties, meetings & events — we’ve got you covered.',
     icon: Wine,
   },
 ];
 
 const events = [
   {
-    day: '30',
+    day: '23',
     month: 'May',
     weekday: 'Fri',
-    time: '7:30pm - late',
-    title: 'Open Mic Night',
-    text: 'All talents welcome for a friendly night of local performers.',
+    time: '8:00pm – 11:00pm',
+    title: 'Live Music: The Paper Streets',
+    text: 'Indie folk & Americana from a brilliant Leeds-based trio.',
     price: 'Free entry',
     image:
-      'https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&w=900&q=80',
+      'https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?auto=format&fit=crop&w=1100&q=80',
   },
   {
-    day: '7',
-    month: 'Jun',
+    day: '31',
+    month: 'May',
     weekday: 'Sat',
-    time: '8:00pm - 11:00pm',
-    title: 'Live Music Night',
-    text: 'Warm acoustic sounds from local artists and touring guests.',
-    price: 'Tickets TBC',
+    time: '6:00pm – late',
+    title: 'Cocktail Night',
+    text: 'Two-for-one cocktails all night long. Good vibes guaranteed.',
+    price: 'From £8',
     image:
-      'https://images.unsplash.com/photo-1510915361894-db8b60106cb1?auto=format&fit=crop&w=900&q=80',
+      'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=1100&q=80',
   },
   {
-    day: '14',
+    day: '08',
     month: 'Jun',
-    weekday: 'Sat',
-    time: '10:00pm - late',
-    title: 'Vinyl & DJ Set',
-    text: 'Classic tunes, good beer and a lively Saturday crowd.',
+    weekday: 'Sun',
+    time: '4:00pm – 9:00pm',
+    title: 'Vinyl Sunday',
+    text: 'Classic tunes, good beer and lazy Sunday feels.',
     price: 'Free entry',
     image:
-      'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=900&q=80',
+      'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=1100&q=80',
   },
 ];
 
 const galleryImages = [
   asset('/images/interior.png'),
-  asset('/images/interior2.png'),
-  asset('/images/exterior.png'),
-  asset('/images/party.png'),
   asset('/images/bar beers.png'),
+  asset('/images/exterior.png'),
+  asset('/images/interior2.png'),
+  asset('/images/party.png'),
 ];
 ---
 
@@ -120,68 +120,73 @@ const galleryImages = [
           ))
         }
       </nav>
-      <div class="social-links" aria-label="Social links">
-        <a href="#" aria-label="Instagram"><Instagram size={20} /></a>
-        <a href="#" aria-label="Facebook"><Facebook size={20} /></a>
-      </div>
       <a class="header-cta" href="#contact">Book a table</a>
     </header>
 
     <main id="top">
-      <section class="hero" id="home">
+      <section class="hero" id="home" style={`--hero-image: url('${asset('/images/header.png')}')`}>
         <div class="hero-overlay"></div>
         <div class="hero-content">
-          <h1>Shipley's cosy bar, events space & community venue</h1>
+          <h1>Shipley's cosy bar, events space &amp; community venue</h1>
           <p>
-            Independent, welcoming and a little bit eclectic. Join us for craft drinks,
-            live music, good times and great people in the heart of Shipley.
+            Independent, welcoming and a little bit eclectic. Join us for craft drinks, live music,
+            good times and great people right in the heart of Shipley.
           </p>
           <div class="hero-actions">
-            <a class="button button-primary" href="#whats-on">See what's on</a>
-            <a class="button button-secondary" href="#contact">Book a table</a>
+            <a class="button button-primary" href="#whats-on">What's on</a>
+            <a class="button button-ghost" href="#contact">Book a table</a>
           </div>
         </div>
       </section>
 
-      <section class="features" id="drinks" aria-label="Venue highlights">
-        <div class="feature-grid">
+      <div class="paper-tear" style="--tear-color: #08130c" aria-hidden="true"></div>
+
+      <section class="features-strip" id="drinks" aria-label="Venue highlights">
+        <div class="features-inner">
           {
             featureCards.map(({ title, text, icon: Icon }) => (
               <article class="feature">
-                <Icon size={46} stroke-width={2.3} />
-                <h2>{title}</h2>
-                <p>{text}</p>
+                <span class="feature-icon" aria-hidden="true">
+                  <Icon size={26} stroke-width={1.6} />
+                </span>
+                <div class="feature-text">
+                  <h2>{title}</h2>
+                  <p>{text}</p>
+                </div>
               </article>
             ))
           }
         </div>
       </section>
 
+      <div class="paper-tear" style="--tear-color: #07120b" aria-hidden="true"></div>
+
       <section class="events-section" id="whats-on">
         <div class="section-bar">
           <div class="section-heading">
-            <Music2 size={30} aria-hidden="true" />
-            <h2>What's On</h2>
-            <p>Live music. Events. Good times.</p>
+            <Music2 size={26} aria-hidden="true" />
+            <div>
+              <h2>What's On</h2>
+              <p>Live music. Events. Good times.</p>
+            </div>
           </div>
-          <a class="button button-secondary" href="#">View all events</a>
+          <a class="button button-ghost" href="#">View all events</a>
         </div>
         <div class="event-grid">
           {
             events.map((event) => (
-              <article class="event-card">
-                <div class="event-image" style={`--event-image: url('${event.image}')`}>
-                  <div class="date-badge">
-                    <span>{event.weekday}</span>
-                    <strong>{event.day}</strong>
-                    <span>{event.month}</span>
-                  </div>
+              <article class="event-card" style={`--event-image: url('${event.image}')`}>
+                <div class="date-badge">
+                  <span>{event.weekday}</span>
+                  <strong>{event.day}</strong>
+                  <span>{event.month}</span>
                 </div>
                 <div class="event-body">
                   <h3>{event.title}</h3>
                   <p>{event.text}</p>
                   <div class="event-meta">
-                    <span><Clock size={15} /> {event.time}</span>
+                    <span><Clock size={14} /> {event.time}</span>
+                    <span class="dot" aria-hidden="true"></span>
                     <strong>{event.price}</strong>
                   </div>
                 </div>
@@ -191,135 +196,124 @@ const galleryImages = [
         </div>
       </section>
 
+      <div class="paper-tear" style="--tear-color: #07120b" aria-hidden="true"></div>
+
       <section class="about-band" id="about">
-        <div class="about-card">
-          <img
-            src={asset('/images/interior1.png')}
-            alt="Reconnection interior"
-            loading="lazy"
-          />
+        <div class="about-grid">
+          <div class="about-image">
+            <img
+              src={asset('/images/interior.png')}
+              alt="Reconnection interior"
+              loading="lazy"
+            />
+          </div>
           <div class="about-copy">
-            <p class="eyebrow">About Reconnection</p>
-            <h2>Your local spot for good times & great people.</h2>
+            <h2>About Reconnection<br />Shipley</h2>
             <p>
-              Reconnection is built around good drinks, warm welcomes and memorable nights.
-              By day, it is a relaxed place to meet and unwind. By night, it comes alive with
-              music, events and conversation.
+              Reconnection Shipley is more than just a bar. We're a place to meet, celebrate,
+              create and belong. From live music and open mics to community meetups and private
+              parties, our doors are open to all.
             </p>
             <a class="button button-primary" href="#contact">Learn more about us</a>
           </div>
-          <aside class="support-card" id="private-hire">
-            <p class="eyebrow">Support Local</p>
-            <h3>Love local.</h3>
-            <p>We champion local brewers, artists, musicians and independent spirit.</p>
+          <aside class="support-card" aria-label="Support local">
+            <div class="support-card-inner">
+              <span class="support-mark" aria-hidden="true">
+                <Music2 size={22} stroke-width={1.6} />
+              </span>
+              <h3>Support Local</h3>
+              <p>
+                We champion local brewers, artists, musicians and independent spirit.
+              </p>
+              <p class="support-signoff">Thank you for supporting your local.</p>
+            </div>
           </aside>
         </div>
       </section>
 
+      <div class="paper-tear" style="--tear-color: var(--paper)" aria-hidden="true"></div>
+
       <section class="gallery-strip" id="gallery">
         <div class="gallery-intro">
           <h2>Gallery</h2>
-          <p>A peek inside</p>
-          <a class="button button-secondary" href="#">View full gallery</a>
         </div>
         <div class="gallery-row">
           {
             galleryImages.map((image, index) => (
-              <img src={image} alt={`Reconnection placeholder gallery image ${index + 1}`} />
+              <a href={image} aria-label={`Open gallery image ${index + 1}`}>
+                <img src={image} alt={`Reconnection gallery image ${index + 1}`} loading="lazy" />
+              </a>
             ))
           }
         </div>
       </section>
 
+      <div class="paper-tear" style="--tear-color: var(--coal)" aria-hidden="true"></div>
+
       <section class="contact-panel" id="contact">
         <div class="contact-details">
           <p class="eyebrow">Come Say Hello</p>
-          <h2>Find us in Shipley.</h2>
+          <ul class="contact-list">
+            <li><MapPin size={18} /> <span>41 Westgate, Shipley,<br />West Yorkshire, BD18 3QX</span></li>
+            <li><Phone size={18} /> <span>07399 036526</span></li>
+            <li><Mail size={18} /> <span>info@reconnectionshipley.org.uk</span></li>
+          </ul>
+          <div class="hours-list" aria-label="Opening hours">
+            <dl>
+              <div><dt>Mon</dt><dd>Closed</dd></div>
+              <div><dt>Tue – Thu</dt><dd>3pm – 11pm</dd></div>
+              <div><dt>Fri – Sat</dt><dd>12pm – 11pm</dd></div>
+              <div><dt>Sun</dt><dd>12pm – 6pm</dd></div>
+            </dl>
+          </div>
           <p class="open-status" data-open-status>
             <span class="status-dot" aria-hidden="true"></span>
             <span>Checking opening hours</span>
           </p>
-          <p><MapPin size={18} /> 41 Westgate, Shipley, BD18 3QX</p>
-          <p><Phone size={18} /> 07399 036526</p>
-          <p><Mail size={18} /> info@reconnectionshipley.org.uk</p>
-          <div class="hours-list">
-            <h3><CalendarDays size={18} /> Opening Hours</h3>
-            <dl>
-              <div>
-                <dt>Mon</dt>
-                <dd>Closed</dd>
-              </div>
-              <div>
-                <dt>Tue</dt>
-                <dd>3pm - 10pm</dd>
-              </div>
-              <div>
-                <dt>Wed - Thu</dt>
-                <dd>3pm - 11pm</dd>
-              </div>
-              <div>
-                <dt>Fri - Sat</dt>
-                <dd>12pm - 11pm</dd>
-              </div>
-              <div>
-                <dt>Sun</dt>
-                <dd>12pm - 6pm</dd>
-              </div>
-            </dl>
-          </div>
         </div>
-        <div class="map-card" aria-label="Decorative map placeholder">
-          <div class="map-pin"><MapPin size={34} /></div>
-          <span>Reconnection</span>
+        <div class="map-card" aria-hidden="true">
+          <iframe
+            title="Map showing Reconnection Shipley"
+            src="https://www.google.com/maps?q=41%20Westgate%2C%20Shipley%2C%20BD18%203QX&output=embed"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+          ></iframe>
         </div>
         <div class="newsletter">
           <p class="eyebrow">Stay In The Loop</p>
-          <h2>Gig news, offers and updates.</h2>
+          <h2>Gig news, offers &amp; updates.</h2>
+          <p class="newsletter-lede">Sign up for the latest events, offers and all things Reconnection.</p>
           <form>
             <label for="email">Email address</label>
             <div class="signup-row">
               <input id="email" type="email" placeholder="Your email address" />
-              <button type="submit"><ArrowRight size={20} /><span>Subscribe</span></button>
+              <button type="submit"><span>Subscribe</span><ArrowRight size={18} /></button>
             </div>
           </form>
-          <div class="footer-social">
+          <div class="newsletter-social" aria-label="Follow us">
             <a href="#" aria-label="Instagram"><Instagram size={18} /></a>
             <a href="#" aria-label="Facebook"><Facebook size={18} /></a>
+            <a href="#" aria-label="Music"><Music2 size={18} /></a>
           </div>
         </div>
       </section>
     </main>
 
     <footer class="site-footer">
-      <div class="footer-grid">
-        <div>
-          <a class="brand footer-brand" href="#top" aria-label="Reconnection home">
-            <span class="brand-main">Reconnection</span>
-            <span class="brand-sub">Shipley</span>
-          </a>
-          <p>Independent bar, events space and community venue in the heart of Shipley.</p>
-          <div class="footer-social">
-            <a href="#" aria-label="Instagram"><Instagram size={18} /></a>
-            <a href="#" aria-label="Facebook"><Facebook size={18} /></a>
-          </div>
-        </div>
-        <div>
-          <h2>Find Us</h2>
-          <p><MapPin size={18} /> 41 Westgate, Shipley, BD18 3QX</p>
-          <p><CalendarDays size={18} /> Mon closed, Tue from 3pm, Fri - Sun from 12pm</p>
-        </div>
-        <div>
-          <h2>Get In Touch</h2>
-          <p><Mail size={18} /> info@reconnectionshipley.org.uk</p>
-          <p><Phone size={18} /> 07399 036526</p>
-        </div>
-        <div>
-          <h2>Stay In The Loop</h2>
-          <p>Sign up for news, events and updates.</p>
-          <a class="button button-secondary" href="#">Sign up</a>
-        </div>
+      <div class="footer-row">
+        <a class="brand footer-brand" href="#top" aria-label="Reconnection home">
+          <span class="brand-main">Reconnection</span>
+          <span class="brand-sub">Shipley</span>
+        </a>
+        <nav class="footer-nav" aria-label="Footer navigation">
+          {
+            navItems.map((item) => (
+              <a href={`#${item.toLowerCase().replaceAll(' ', '-').replaceAll("'", '')}`}>{item}</a>
+            ))
+          }
+        </nav>
+        <p class="copyright">&copy; 2026 Reconnection Shipley.<br />All rights reserved.</p>
       </div>
-      <p class="copyright">&copy; 2026 Reconnection. All rights reserved.</p>
     </footer>
 
     <script>
@@ -346,8 +340,6 @@ const galleryImages = [
           }
         });
       };
-
-      setActiveLink('home');
 
       toggle?.addEventListener('click', () => {
         const isOpen = toggle.getAttribute('aria-expanded') === 'true';
@@ -381,7 +373,7 @@ const galleryImages = [
 
       const openingHours = [
         null,
-        { open: '15:00', close: '22:00' },
+        { open: '15:00', close: '23:00' },
         { open: '15:00', close: '23:00' },
         { open: '15:00', close: '23:00' },
         { open: '12:00', close: '23:00' },

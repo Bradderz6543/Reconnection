@@ -4,5 +4,8 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   site: 'https://bradderz6543.github.io',
   base: '/Reconnection',
+  devToolbar: {
+    enabled: false,
+  },
   integrations: [sitemap()],
 });
