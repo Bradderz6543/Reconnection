@@ -21,7 +21,14 @@ const base = import.meta.env.BASE_URL.endsWith('/')
   : `${import.meta.env.BASE_URL}/`;
 const asset = (path: string) => `${base}${path.replace(/^\//, '')}`;
 
-const navItems = ["What's on", 'Drinks', 'About', 'Private hire', 'Gallery', 'Contact'];
+const navItems = [
+  { label: "What's on", id: 'whats-on', mobileOrder: 2 },
+  { label: 'Drinks', id: 'drinks', mobileOrder: 1 },
+  { label: 'About', id: 'about', mobileOrder: 3 },
+  { label: 'Private hire', id: 'private-hire', mobileOrder: 4 },
+  { label: 'Gallery', id: 'gallery', mobileOrder: 5 },
+  { label: 'Contact', id: 'contact', mobileOrder: 6 },
+];
 
 const featureCards = [
   {
@@ -116,7 +123,7 @@ const galleryImages = [
       <nav class="main-nav" id="main-nav" aria-label="Primary navigation">
         {
           navItems.map((item) => (
-            <a href={`#${item.toLowerCase().replaceAll(' ', '-').replaceAll("'", '')}`}>{item}</a>
+            <a href={`#${item.id}`} style={`--mobile-order: ${item.mobileOrder}`}>{item.label}</a>
           ))
         }
       </nav>
@@ -308,7 +315,7 @@ const galleryImages = [
         <nav class="footer-nav" aria-label="Footer navigation">
           {
             navItems.map((item) => (
-              <a href={`#${item.toLowerCase().replaceAll(' ', '-').replaceAll("'", '')}`}>{item}</a>
+              <a href={`#${item.id}`}>{item.label}</a>
             ))
           }
         </nav>
