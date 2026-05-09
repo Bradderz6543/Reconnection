@@ -17,11 +17,10 @@ const base = import.meta.env.BASE_URL.endsWith('/')
 const asset = (path: string) => `${base}${path.replace(/^\//, '')}`;
 
 const navItems = [
-  { label: "What's on", id: 'whats-on', mobileOrder: 2 },
-  { label: 'Drinks', id: 'drinks', mobileOrder: 1 },
-  { label: 'About', id: 'about', mobileOrder: 3 },
-  { label: 'Gallery', id: 'gallery', mobileOrder: 4 },
-  { label: 'Contact', id: 'contact', mobileOrder: 5 },
+  { label: "What's on", id: 'whats-on' },
+  { label: 'About', id: 'about' },
+  { label: 'Gallery', id: 'gallery' },
+  { label: 'Contact', id: 'contact' },
 ];
 
 const featureCards = [
@@ -48,11 +47,11 @@ const featureCards = [
 ];
 
 const galleryImages = [
-  asset('/images/interior.webp'),
-  asset('/images/bar-beers.webp'),
-  asset('/images/exterior.webp'),
-  asset('/images/interior2.webp'),
-  asset('/images/party.webp'),
+  { src: asset('/images/interior.webp'), alt: 'Inside Reconnection — bar and seating area with warm, low lighting' },
+  { src: asset('/images/bar-beers.webp'), alt: 'Taps and bottles lined up on the bar at Reconnection' },
+  { src: asset('/images/exterior.webp'), alt: "Reconnection's shopfront on Westgate, Shipley" },
+  { src: asset('/images/interior2.webp'), alt: 'Seating area inside Reconnection with mixed tables and chairs' },
+  { src: asset('/images/party.webp'), alt: 'A busy evening at Reconnection with people gathered at the bar' },
 ];
 ---
 
@@ -88,31 +87,32 @@ const galleryImages = [
       <nav class="main-nav" id="main-nav" aria-label="Primary navigation">
         {
           navItems.map((item) => (
-            <a href={`#${item.id}`} style={`--mobile-order: ${item.mobileOrder}`}>{item.label}</a>
+            <a href={`#${item.id}`}>{item.label}</a>
           ))
         }
       </nav>
     </header>
 
     <main id="top">
+      <h1 class="sr-only">Reconnection Shipley — bar, events space and community venue in Shipley, West Yorkshire</h1>
       <section class="hero" id="home" style={`--hero-image: url('${asset('/images/header.webp')}')`}>
         <div class="hero-overlay"></div>
         <div class="hero-content">
-          <h1>Shipley's cosy bar, events space &amp; community venue</h1>
+          <h2 class="hero-title">Shipley's cosy bar, events space &amp; community venue</h2>
           <p>
             Independent, welcoming and a little bit eclectic. Join us for craft drinks, live music,
             good times and great people right in the heart of Shipley.
           </p>
           <div class="hero-actions">
-            <a class="button button-primary" href="#whats-on">What's on</a>
-            <a class="button button-ghost" href="#contact">Contact</a>
+            <a class="button button-primary" href="#contact">Find us</a>
+            <a class="button button-ghost" href="#whats-on">What's on</a>
           </div>
         </div>
       </section>
 
       <div class="paper-tear" style="--tear-color: #08130c" aria-hidden="true"></div>
 
-      <section class="features-strip" id="drinks" aria-label="Venue highlights">
+      <section class="features-strip" id="highlights" aria-label="Venue highlights">
         <div class="features-inner">
           {
             featureCards.map(({ title, text, icon: Icon }) => (
@@ -156,7 +156,7 @@ const galleryImages = [
             <span><UsersRound size={18} aria-hidden="true" /> Community nights</span>
             <span><Mail size={18} aria-hidden="true" /> Event enquiries welcome</span>
           </div>
-          <a class="button button-primary" href="#contact">Contact us</a>
+          <a class="button button-primary" href="mailto:info@reconnectionshipley.org.uk?subject=Event%20enquiry">Email an enquiry</a>
         </div>
       </section>
 
@@ -167,7 +167,7 @@ const galleryImages = [
           <div class="about-image">
             <img
               src={asset('/images/interior.webp')}
-              alt="Reconnection interior"
+              alt="Inside Reconnection — bar and seating area with warm, low lighting"
               width="1200"
               height="900"
               loading="lazy"
@@ -175,26 +175,17 @@ const galleryImages = [
             />
           </div>
           <div class="about-copy">
-            <h2>About Reconnection<br />Shipley</h2>
+            <h2>About Reconnection Shipley</h2>
             <p>
               Reconnection Shipley is more than just a bar. We're a place to meet, celebrate,
-              create and belong. From live music and open mics to community meetups and private
-              parties, our doors are open to all.
+              create and belong. From live music and open mics to community meetups and relaxed
+              nights out, our doors are open to all.
             </p>
-            <a class="button button-primary" href="#contact">Learn more about us</a>
+            <p class="about-support">
+              We champion local brewers, artists, musicians and independent spirit. Thank you
+              for supporting your local.
+            </p>
           </div>
-          <aside class="support-card" aria-label="Support local">
-            <div class="support-card-inner">
-              <span class="support-mark" aria-hidden="true">
-                <Music2 size={22} stroke-width={1.6} />
-              </span>
-              <h3>Support Local</h3>
-              <p>
-                We champion local brewers, artists, musicians and independent spirit.
-              </p>
-              <p class="support-signoff">Thank you for supporting your local.</p>
-            </div>
-          </aside>
         </div>
       </section>
 
@@ -207,10 +198,17 @@ const galleryImages = [
         <div class="gallery-row">
           {
             galleryImages.map((image, index) => (
-              <a href={image} aria-label={`Open gallery image ${index + 1}`}>
+              <a
+                href={image.src}
+                class="gallery-tile"
+                data-gallery-index={index}
+                target="_blank"
+                rel="noopener"
+                aria-label={`View photo: ${image.alt}`}
+              >
                 <img
-                  src={image}
-                  alt={`Reconnection gallery image ${index + 1}`}
+                  src={image.src}
+                  alt={image.alt}
                   width="1200"
                   height="900"
                   loading="lazy"
@@ -227,10 +225,29 @@ const galleryImages = [
       <section class="contact-panel" id="contact">
         <div class="contact-details">
           <p class="eyebrow">Come Say Hello</p>
+          <p class="open-status" data-open-status>
+            <span class="status-dot" aria-hidden="true"></span>
+            <span>Checking opening hours</span>
+          </p>
           <ul class="contact-list">
-            <li><MapPin size={18} /> <span>41 Westgate, Shipley,<br />West Yorkshire, BD18 3QX</span></li>
-            <li><Phone size={18} /> <span>07399 036526</span></li>
-            <li><Mail size={18} /> <span>info@reconnectionshipley.org.uk</span></li>
+            <li>
+              <MapPin size={18} aria-hidden="true" />
+              <a
+                href="https://www.google.com/maps/dir/?api=1&destination=41+Westgate+Shipley+BD18+3QX"
+                target="_blank"
+                rel="noopener"
+              >
+                41 Westgate, Shipley,<br />West Yorkshire, BD18 3QX
+              </a>
+            </li>
+            <li>
+              <Phone size={18} aria-hidden="true" />
+              <a href="tel:+447399036526">07399 036526</a>
+            </li>
+            <li>
+              <Mail size={18} aria-hidden="true" />
+              <a href="mailto:info@reconnectionshipley.org.uk">info@reconnectionshipley.org.uk</a>
+            </li>
           </ul>
           <div class="hours-list" aria-label="Opening hours">
             <dl>
@@ -240,21 +257,35 @@ const galleryImages = [
               <div><dt>Sun</dt><dd>12pm – 6pm</dd></div>
             </dl>
           </div>
-          <p class="open-status" data-open-status>
-            <span class="status-dot" aria-hidden="true"></span>
-            <span>Checking opening hours</span>
-          </p>
         </div>
-        <div class="map-card" aria-hidden="true">
+        <div class="map-card">
           <iframe
             title="Map showing Reconnection Shipley"
             src="https://www.google.com/maps?q=41%20Westgate%2C%20Shipley%2C%20BD18%203QX&output=embed"
             loading="lazy"
             referrerpolicy="no-referrer-when-downgrade"
           ></iframe>
+          <a
+            class="map-directions"
+            href="https://www.google.com/maps/dir/?api=1&destination=41+Westgate+Shipley+BD18+3QX"
+            target="_blank"
+            rel="noopener"
+          >
+            <MapPin size={16} aria-hidden="true" /> Get directions
+          </a>
         </div>
       </section>
     </main>
+
+    <dialog class="gallery-dialog" aria-label="Gallery viewer">
+      <button class="gallery-dialog-close" type="button" aria-label="Close gallery">×</button>
+      <button class="gallery-dialog-nav gallery-dialog-prev" type="button" aria-label="Previous image">‹</button>
+      <figure class="gallery-dialog-figure">
+        <img class="gallery-dialog-img" alt="" />
+        <figcaption class="gallery-dialog-caption"></figcaption>
+      </figure>
+      <button class="gallery-dialog-nav gallery-dialog-next" type="button" aria-label="Next image">›</button>
+    </dialog>
 
     <footer class="site-footer">
       <div class="footer-row">
@@ -407,6 +438,69 @@ const galleryImages = [
 
       updateOpenStatus();
       setInterval(updateOpenStatus, 60000);
+
+      const galleryTiles = [...document.querySelectorAll('.gallery-tile')];
+      const galleryDialog = document.querySelector('.gallery-dialog');
+      const galleryDialogImg = document.querySelector('.gallery-dialog-img');
+      const galleryDialogCaption = document.querySelector('.gallery-dialog-caption');
+      const galleryDialogClose = document.querySelector('.gallery-dialog-close');
+      const galleryDialogPrev = document.querySelector('.gallery-dialog-prev');
+      const galleryDialogNext = document.querySelector('.gallery-dialog-next');
+
+      const galleryItems = galleryTiles.map((tile) => {
+        const img = tile.querySelector('img');
+        return {
+          src: img?.getAttribute('src') ?? tile.getAttribute('href') ?? '',
+          alt: img?.getAttribute('alt') ?? '',
+        };
+      });
+
+      let galleryIndex = 0;
+
+      const renderGallery = () => {
+        const item = galleryItems[galleryIndex];
+        if (!item || !galleryDialogImg) return;
+        galleryDialogImg.setAttribute('src', item.src);
+        galleryDialogImg.setAttribute('alt', item.alt);
+        if (galleryDialogCaption) galleryDialogCaption.textContent = item.alt;
+      };
+
+      const stepGallery = (delta) => {
+        if (!galleryItems.length) return;
+        galleryIndex = (galleryIndex + delta + galleryItems.length) % galleryItems.length;
+        renderGallery();
+      };
+
+      const openGallery = (index) => {
+        if (!galleryDialog || typeof galleryDialog.showModal !== 'function') return false;
+        galleryIndex = index;
+        renderGallery();
+        galleryDialog.showModal();
+        return true;
+      };
+
+      galleryTiles.forEach((tile, index) => {
+        tile.addEventListener('click', (event) => {
+          if (event.metaKey || event.ctrlKey || event.shiftKey || event.button === 1) return;
+          if (openGallery(index)) {
+            event.preventDefault();
+          }
+        });
+      });
+
+      galleryDialogClose?.addEventListener('click', () => galleryDialog?.close());
+      galleryDialogPrev?.addEventListener('click', () => stepGallery(-1));
+      galleryDialogNext?.addEventListener('click', () => stepGallery(1));
+
+      galleryDialog?.addEventListener('click', (event) => {
+        if (event.target === galleryDialog) galleryDialog.close();
+      });
+
+      document.addEventListener('keydown', (event) => {
+        if (!galleryDialog?.open) return;
+        if (event.key === 'ArrowLeft') stepGallery(-1);
+        if (event.key === 'ArrowRight') stepGallery(1);
+      });
     </script>
   </body>
 </html>
