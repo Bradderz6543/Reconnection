@@ -1,11 +1,8 @@
 ---
 import {
-  ArrowRight,
   Beer,
   CalendarDays,
-  Facebook,
   Guitar,
-  Instagram,
   Mail,
   MapPin,
   Music2,
@@ -53,11 +50,11 @@ const featureCards = [
 ];
 
 const galleryImages = [
-  asset('/images/interior.png'),
-  asset('/images/bar beers.png'),
-  asset('/images/exterior.png'),
-  asset('/images/interior2.png'),
-  asset('/images/party.png'),
+  asset('/images/interior.webp'),
+  asset('/images/bar-beers.webp'),
+  asset('/images/exterior.webp'),
+  asset('/images/interior2.webp'),
+  asset('/images/party.webp'),
 ];
 ---
 
@@ -70,6 +67,7 @@ const galleryImages = [
       name="description"
       content="Reconnection, a cosy bar and community venue for drinks, music, events and private hire."
     />
+    <link rel="preload" as="image" href={asset('/images/header.webp')} fetchpriority="high" />
     <title>Reconnection | Bar, Events & Community Venue</title>
   </head>
   <body>
@@ -99,7 +97,7 @@ const galleryImages = [
     </header>
 
     <main id="top">
-      <section class="hero" id="home" style={`--hero-image: url('${asset('/images/header.png')}')`}>
+      <section class="hero" id="home" style={`--hero-image: url('${asset('/images/header.webp')}')`}>
         <div class="hero-overlay"></div>
         <div class="hero-content">
           <h1>Shipley's cosy bar, events space &amp; community venue</h1>
@@ -170,9 +168,12 @@ const galleryImages = [
         <div class="about-grid">
           <div class="about-image">
             <img
-              src={asset('/images/interior.png')}
+              src={asset('/images/interior.webp')}
               alt="Reconnection interior"
+              width="1200"
+              height="900"
               loading="lazy"
+              decoding="async"
             />
           </div>
           <div class="about-copy">
@@ -209,7 +210,14 @@ const galleryImages = [
           {
             galleryImages.map((image, index) => (
               <a href={image} aria-label={`Open gallery image ${index + 1}`}>
-                <img src={image} alt={`Reconnection gallery image ${index + 1}`} loading="lazy" />
+                <img
+                  src={image}
+                  alt={`Reconnection gallery image ${index + 1}`}
+                  width="1200"
+                  height="900"
+                  loading="lazy"
+                  decoding="async"
+                />
               </a>
             ))
           }
@@ -246,23 +254,6 @@ const galleryImages = [
             loading="lazy"
             referrerpolicy="no-referrer-when-downgrade"
           ></iframe>
-        </div>
-        <div class="newsletter">
-          <p class="eyebrow">Stay In The Loop</p>
-          <h2>Gig news, offers &amp; updates.</h2>
-          <p class="newsletter-lede">Sign up for the latest events, offers and all things Reconnection.</p>
-          <form>
-            <label for="email">Email address</label>
-            <div class="signup-row">
-              <input id="email" type="email" placeholder="Your email address" />
-              <button type="submit"><span>Subscribe</span><ArrowRight size={18} /></button>
-            </div>
-          </form>
-          <div class="newsletter-social" aria-label="Follow us">
-            <a href="#" aria-label="Instagram"><Instagram size={18} /></a>
-            <a href="#" aria-label="Facebook"><Facebook size={18} /></a>
-            <a href="#" aria-label="Music"><Music2 size={18} /></a>
-          </div>
         </div>
       </section>
     </main>
