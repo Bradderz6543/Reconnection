@@ -3,7 +3,6 @@ import {
   ArrowRight,
   Beer,
   CalendarDays,
-  Clock,
   Facebook,
   Guitar,
   Instagram,
@@ -53,42 +52,6 @@ const featureCards = [
   },
 ];
 
-const events = [
-  {
-    day: '23',
-    month: 'May',
-    weekday: 'Fri',
-    time: '8:00pm – 11:00pm',
-    title: 'Live Music: The Paper Streets',
-    text: 'Indie folk & Americana from a brilliant Leeds-based trio.',
-    price: 'Free entry',
-    image:
-      'https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?auto=format&fit=crop&w=1100&q=80',
-  },
-  {
-    day: '31',
-    month: 'May',
-    weekday: 'Sat',
-    time: '6:00pm – late',
-    title: 'Cocktail Night',
-    text: 'Two-for-one cocktails all night long. Good vibes guaranteed.',
-    price: 'From £8',
-    image:
-      'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=1100&q=80',
-  },
-  {
-    day: '08',
-    month: 'Jun',
-    weekday: 'Sun',
-    time: '4:00pm – 9:00pm',
-    title: 'Vinyl Sunday',
-    text: 'Classic tunes, good beer and lazy Sunday feels.',
-    price: 'Free entry',
-    image:
-      'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=1100&q=80',
-  },
-];
-
 const galleryImages = [
   asset('/images/interior.png'),
   asset('/images/bar beers.png'),
@@ -115,7 +78,13 @@ const galleryImages = [
         <span class="brand-main">Reconnection</span>
         <span class="brand-sub">Shipley</span>
       </a>
-      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav">
+      <button
+        class="nav-toggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="main-nav"
+        aria-label="Toggle menu"
+      >
         <span></span>
         <span></span>
         <span></span>
@@ -127,7 +96,6 @@ const galleryImages = [
           ))
         }
       </nav>
-      <a class="header-cta" href="#contact">Book a table</a>
     </header>
 
     <main id="top">
@@ -141,7 +109,7 @@ const galleryImages = [
           </p>
           <div class="hero-actions">
             <a class="button button-primary" href="#whats-on">What's on</a>
-            <a class="button button-ghost" href="#contact">Book a table</a>
+            <a class="button button-ghost" href="#contact">Contact</a>
           </div>
         </div>
       </section>
@@ -174,32 +142,25 @@ const galleryImages = [
             <Music2 size={26} aria-hidden="true" />
             <div>
               <h2>What's On</h2>
-              <p>Live music. Events. Good times.</p>
+              <p>Freshly reopened. More to come.</p>
             </div>
           </div>
-          <a class="button button-ghost" href="#">View all events</a>
         </div>
-        <div class="event-grid">
-          {
-            events.map((event) => (
-              <article class="event-card" style={`--event-image: url('${event.image}')`}>
-                <div class="date-badge">
-                  <span>{event.weekday}</span>
-                  <strong>{event.day}</strong>
-                  <span>{event.month}</span>
-                </div>
-                <div class="event-body">
-                  <h3>{event.title}</h3>
-                  <p>{event.text}</p>
-                  <div class="event-meta">
-                    <span><Clock size={14} /> {event.time}</span>
-                    <span class="dot" aria-hidden="true"></span>
-                    <strong>{event.price}</strong>
-                  </div>
-                </div>
-              </article>
-            ))
-          }
+        <div class="events-empty">
+          <div class="events-empty-copy">
+            <span class="eyebrow">Events returning soon</span>
+            <h3>We’re settling back in after reopening.</h3>
+            <p>
+              There are no scheduled events to announce just yet, but live music, community nights
+              and private hire options are all part of the plan as things get moving again.
+            </p>
+          </div>
+          <div class="events-empty-list" aria-label="Upcoming plans">
+            <span><Music2 size={18} aria-hidden="true" /> Live music</span>
+            <span><UsersRound size={18} aria-hidden="true" /> Community nights</span>
+            <span><Mail size={18} aria-hidden="true" /> Event enquiries welcome</span>
+          </div>
+          <a class="button button-primary" href="#contact">Contact us</a>
         </div>
       </section>
 
@@ -327,6 +288,8 @@ const galleryImages = [
       const toggle = document.querySelector('.nav-toggle');
       const nav = document.querySelector('.main-nav');
       const navLinks = [...document.querySelectorAll('.main-nav a')];
+      const sectionLinks = [...document.querySelectorAll('a[href^="#"]')];
+      const header = document.querySelector('.site-header');
       const openStatus = document.querySelector('[data-open-status]');
       const sections = navLinks
         .map((link) => {
@@ -352,14 +315,32 @@ const galleryImages = [
         const isOpen = toggle.getAttribute('aria-expanded') === 'true';
         toggle.setAttribute('aria-expanded', String(!isOpen));
         nav?.classList.toggle('is-open', !isOpen);
+        toggle.blur();
       });
 
-      navLinks.forEach((link) => {
-        link.addEventListener('click', () => {
+      sectionLinks.forEach((link) => {
+        link.addEventListener('click', (event) => {
           const id = link.getAttribute('href')?.slice(1);
-          if (id) setActiveLink(id);
-          toggle?.setAttribute('aria-expanded', 'false');
-          nav?.classList.remove('is-open');
+          const section = id ? document.getElementById(id) : null;
+
+          if (nav?.contains(link)) {
+            toggle?.setAttribute('aria-expanded', 'false');
+            nav.classList.remove('is-open');
+          }
+
+          if (!id || !section) return;
+
+          event.preventDefault();
+          setActiveLink(id);
+
+          const headerHeight = header?.getBoundingClientRect().height ?? 0;
+          const targetTop = section.getBoundingClientRect().top + window.scrollY - headerHeight + 12;
+
+          window.history.pushState(null, '', `#${id}`);
+          window.scrollTo({
+            top: targetTop,
+            behavior: 'smooth',
+          });
         });
       });
 
