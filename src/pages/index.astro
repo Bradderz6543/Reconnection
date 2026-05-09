@@ -8,7 +8,6 @@ import {
   Music2,
   Phone,
   UsersRound,
-  Wine,
 } from 'lucide-astro';
 import '../styles/global.css';
 
@@ -21,9 +20,8 @@ const navItems = [
   { label: "What's on", id: 'whats-on', mobileOrder: 2 },
   { label: 'Drinks', id: 'drinks', mobileOrder: 1 },
   { label: 'About', id: 'about', mobileOrder: 3 },
-  { label: 'Private hire', id: 'private-hire', mobileOrder: 4 },
-  { label: 'Gallery', id: 'gallery', mobileOrder: 5 },
-  { label: 'Contact', id: 'contact', mobileOrder: 6 },
+  { label: 'Gallery', id: 'gallery', mobileOrder: 4 },
+  { label: 'Contact', id: 'contact', mobileOrder: 5 },
 ];
 
 const featureCards = [
@@ -41,11 +39,6 @@ const featureCards = [
     title: 'Community Space',
     text: 'A welcoming space for everyone in Shipley.',
     icon: UsersRound,
-  },
-  {
-    title: 'Private Hire',
-    text: 'Parties, meetings & events — we’ve got you covered.',
-    icon: Wine,
   },
 ];
 
@@ -65,7 +58,7 @@ const galleryImages = [
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Reconnection, a cosy bar and community venue for drinks, music, events and private hire."
+      content="Reconnection, a cosy bar and community venue for drinks, music and events."
     />
     <link rel="preload" as="image" href={asset('/images/header.webp')} fetchpriority="high" />
     <title>Reconnection | Bar, Events & Community Venue</title>
@@ -149,8 +142,8 @@ const galleryImages = [
             <span class="eyebrow">Events returning soon</span>
             <h3>We’re settling back in after reopening.</h3>
             <p>
-              There are no scheduled events to announce just yet, but live music, community nights
-              and private hire options are all part of the plan as things get moving again.
+              There are no scheduled events to announce just yet, but live music and community
+              nights are all part of the plan as things get moving again.
             </p>
           </div>
           <div class="events-empty-list" aria-label="Upcoming plans">
@@ -302,6 +295,16 @@ const galleryImages = [
         });
       };
 
+      const updateActiveSection = () => {
+        const headerHeight = header?.getBoundingClientRect().height ?? 0;
+        const scrollPosition = window.scrollY + headerHeight + 24;
+        const activeSection = sections
+          .filter(({ section }) => section.offsetTop <= scrollPosition)
+          .at(-1);
+
+        setActiveLink(activeSection?.id ?? '');
+      };
+
       toggle?.addEventListener('click', () => {
         const isOpen = toggle.getAttribute('aria-expanded') === 'true';
         toggle.setAttribute('aria-expanded', String(!isOpen));
@@ -335,20 +338,9 @@ const galleryImages = [
         });
       });
 
-      const observer = new IntersectionObserver(
-        (entries) => {
-          const visible = entries
-            .filter((entry) => entry.isIntersecting)
-            .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-          if (visible?.target?.id) setActiveLink(visible.target.id);
-        },
-        {
-          rootMargin: '-35% 0px -50% 0px',
-          threshold: [0.1, 0.25, 0.5, 0.75],
-        },
-      );
-
-      sections.forEach(({ section }) => observer.observe(section));
+      updateActiveSection();
+      window.addEventListener('scroll', updateActiveSection, { passive: true });
+      window.addEventListener('resize', updateActiveSection);
 
       const openingHours = [
         null,

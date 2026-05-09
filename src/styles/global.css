@@ -1109,6 +1109,10 @@ section {
     border-color: var(--gold);
   }
 
+  .main-nav a:last-child {
+    grid-column: 1 / -1;
+  }
+
   .events-empty {
     grid-template-columns: 1fr;
   }
