@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Reconnection Shipley">
+  <title>Reconnection Shipley</title>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#16321f"/>
+      <stop offset="1" stop-color="#0c100c"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ecc25a"/>
+      <stop offset="1" stop-color="#d8a73a"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="11" ry="11" fill="url(#bg)"/>
+  <rect x="6" y="6" width="52" height="52" rx="8" ry="8" fill="none" stroke="rgba(216,167,58,0.18)" stroke-width="1"/>
+  <text x="32" y="44" text-anchor="middle"
+        font-family="'Fraunces', Georgia, 'Times New Roman', serif"
+        font-weight="700" font-size="42" fill="url(#gold)"
+        font-style="normal" letter-spacing="-1">R</text>
+  <rect x="22" y="50" width="20" height="2" rx="1" fill="url(#gold)"/>
+</svg>

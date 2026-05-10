@@ -16,12 +16,57 @@ const base = import.meta.env.BASE_URL.endsWith('/')
   : `${import.meta.env.BASE_URL}/`;
 const asset = (path: string) => `${base}${path.replace(/^\//, '')}`;
 
+// Public site URL used for canonical / OG / JSON-LD. When a custom domain
+// (e.g. https://reconnectionshipley.org.uk) is in place, also update
+// `site` in astro.config.mjs.
+const siteOrigin = (import.meta.env.SITE ?? 'https://bradderz6543.github.io').replace(/\/$/, '');
+const canonicalUrl = `${siteOrigin}${base}`;
+const ogImageUrl = `${siteOrigin}${asset('/images/og-image.png')}`;
+
+const pageTitle = 'Reconnection Shipley | Cosy bar, events space & community venue';
+const pageDescription =
+  'Reconnection Shipley is a cosy independent bar, events space and community venue on Westgate, Shipley, West Yorkshire. Craft drinks, live music and good people.';
+
 const navItems = [
   { label: "What's on", id: 'whats-on' },
   { label: 'About', id: 'about' },
   { label: 'Gallery', id: 'gallery' },
   { label: 'Contact', id: 'contact' },
 ];
+
+// Structured data for local SEO. Hours mirror the visible schedule.
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'BarOrPub',
+  '@id': `${canonicalUrl}#business`,
+  name: 'Reconnection Shipley',
+  description: pageDescription,
+  url: canonicalUrl,
+  image: ogImageUrl,
+  telephone: '+44 7399 036526',
+  email: 'info@reconnectionshipley.org.uk',
+  priceRange: '££',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: '41 Westgate',
+    addressLocality: 'Shipley',
+    addressRegion: 'West Yorkshire',
+    postalCode: 'BD18 3QX',
+    addressCountry: 'GB',
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: 53.83244,
+    longitude: -1.77781,
+  },
+  openingHoursSpecification: [
+    { '@type': 'OpeningHoursSpecification', dayOfWeek: 'Tuesday', opens: '15:00', closes: '22:00' },
+    { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Wednesday', 'Thursday'], opens: '15:00', closes: '23:00' },
+    { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Friday', 'Saturday'], opens: '12:00', closes: '23:00' },
+    { '@type': 'OpeningHoursSpecification', dayOfWeek: 'Sunday', opens: '12:00', closes: '18:00' },
+  ],
+  areaServed: 'Shipley, West Yorkshire',
+};
 
 const featureCards = [
   {
@@ -60,14 +105,49 @@ const galleryImages = [
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="Reconnection, a cosy bar and community venue for drinks, music and events."
+    <meta name="color-scheme" content="dark light" />
+    <meta name="theme-color" content="#0d1a12" />
+    <meta name="format-detection" content="telephone=yes" />
+    <meta name="description" content={pageDescription} />
+    <link rel="canonical" href={canonicalUrl} />
+
+    <link rel="icon" type="image/svg+xml" href={asset('/favicon.svg')} />
+    <link rel="icon" href={asset('/favicon.ico')} sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href={asset('/favicon-32.png')} />
+    <link rel="apple-touch-icon" sizes="180x180" href={asset('/apple-touch-icon.png')} />
+    <link rel="manifest" href={asset('/site.webmanifest')} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Reconnection Shipley" />
+    <meta property="og:locale" content="en_GB" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Reconnection Shipley — cosy bar, events space and community venue" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={pageDescription} />
+    <meta name="twitter:image" content={ogImageUrl} />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=Oswald:wght@500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap"
     />
+
     <link rel="preload" as="image" href={asset('/images/header.webp')} fetchpriority="high" />
-    <title>Reconnection | Bar, Events & Community Venue</title>
+
+    <title>{pageTitle}</title>
+
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
   </head>
   <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
     <header class="site-header">
       <a class="brand" href="#top" aria-label="Reconnection home">
         <span class="brand-main">Reconnection</span>
@@ -93,12 +173,12 @@ const galleryImages = [
       </nav>
     </header>
 
-    <main id="top">
-      <h1 class="sr-only">Reconnection Shipley — bar, events space and community venue in Shipley, West Yorkshire</h1>
+    <main id="main-content">
+      <span id="top" tabindex="-1" aria-hidden="true"></span>
       <section class="hero" id="home" style={`--hero-image: url('${asset('/images/header.webp')}')`}>
         <div class="hero-overlay"></div>
         <div class="hero-content">
-          <h2 class="hero-title">Shipley's cosy bar, events space &amp; community venue</h2>
+          <h1 class="hero-title">Shipley's cosy bar, events space &amp; community venue</h1>
           <p>
             Independent, welcoming and a little bit eclectic. Join us for craft drinks, live music,
             good times and great people right in the heart of Shipley.
@@ -175,6 +255,7 @@ const galleryImages = [
             />
           </div>
           <div class="about-copy">
+            <p class="eyebrow">Our place</p>
             <h2>About Reconnection Shipley</h2>
             <p>
               Reconnection Shipley is more than just a bar. We're a place to meet, celebrate,
@@ -225,7 +306,7 @@ const galleryImages = [
       <section class="contact-panel" id="contact">
         <div class="contact-details">
           <p class="eyebrow">Come Say Hello</p>
-          <p class="open-status" data-open-status>
+          <p class="open-status" data-open-status aria-live="polite">
             <span class="status-dot" aria-hidden="true"></span>
             <span>Checking opening hours</span>
           </p>
@@ -242,7 +323,7 @@ const galleryImages = [
             </li>
             <li>
               <Phone size={18} aria-hidden="true" />
-              <a href="tel:+447399036526">07399 036526</a>
+              <a href="tel:+447399036526">07399 036 526</a>
             </li>
             <li>
               <Mail size={18} aria-hidden="true" />
@@ -252,7 +333,8 @@ const galleryImages = [
           <div class="hours-list" aria-label="Opening hours">
             <dl>
               <div><dt>Mon</dt><dd>Closed</dd></div>
-              <div><dt>Tue – Thu</dt><dd>3pm – 11pm</dd></div>
+              <div><dt>Tue</dt><dd>3pm – 10pm</dd></div>
+              <div><dt>Wed – Thu</dt><dd>3pm – 11pm</dd></div>
               <div><dt>Fri – Sat</dt><dd>12pm – 11pm</dd></div>
               <div><dt>Sun</dt><dd>12pm – 6pm</dd></div>
             </dl>
@@ -365,11 +447,12 @@ const galleryImages = [
 
           const headerHeight = header?.getBoundingClientRect().height ?? 0;
           const targetTop = section.getBoundingClientRect().top + window.scrollY - headerHeight + 12;
+          const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
           window.history.pushState(null, '', `#${id}`);
           window.scrollTo({
             top: targetTop,
-            behavior: 'smooth',
+            behavior: prefersReducedMotion ? 'auto' : 'smooth',
           });
         });
       });
@@ -378,14 +461,15 @@ const galleryImages = [
       window.addEventListener('scroll', updateActiveSection, { passive: true });
       window.addEventListener('resize', updateActiveSection);
 
+      // Index 0 = Mon, 1 = Tue, ... 6 = Sun. `null` means closed.
       const openingHours = [
         null,
-        { open: '15:00', close: '23:00' },
-        { open: '15:00', close: '23:00' },
-        { open: '15:00', close: '23:00' },
-        { open: '12:00', close: '23:00' },
-        { open: '12:00', close: '23:00' },
-        { open: '12:00', close: '18:00' },
+        { open: '15:00', close: '22:00' }, // Tue
+        { open: '15:00', close: '23:00' }, // Wed
+        { open: '15:00', close: '23:00' }, // Thu
+        { open: '12:00', close: '23:00' }, // Fri
+        { open: '12:00', close: '23:00' }, // Sat
+        { open: '12:00', close: '18:00' }, // Sun
       ];
 
       const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];

@@ -1,0 +1,15 @@
+{
+  "name": "Reconnection Shipley",
+  "short_name": "Reconnection",
+  "description": "Shipley's cosy bar, events space and community venue.",
+  "start_url": "/Reconnection/",
+  "scope": "/Reconnection/",
+  "display": "standalone",
+  "background_color": "#0d1a12",
+  "theme_color": "#0d1a12",
+  "icons": [
+    { "src": "/Reconnection/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/Reconnection/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/Reconnection/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

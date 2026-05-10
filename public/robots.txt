@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://bradderz6543.github.io/Reconnection/sitemap-index.xml
