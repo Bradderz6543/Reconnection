@@ -2,6 +2,8 @@
 import {
   Beer,
   CalendarDays,
+  ChevronLeft,
+  ChevronRight,
   Guitar,
   Mail,
   MapPin,
@@ -360,13 +362,16 @@ const galleryImages = [
     </main>
 
     <dialog class="gallery-dialog" aria-label="Gallery viewer">
-      <button class="gallery-dialog-close" type="button" aria-label="Close gallery">×</button>
-      <button class="gallery-dialog-nav gallery-dialog-prev" type="button" aria-label="Previous image">‹</button>
+      <button class="gallery-dialog-nav gallery-dialog-prev" type="button" aria-label="Previous image">
+        <ChevronLeft size={28} stroke-width={1.8} aria-hidden="true" />
+      </button>
       <figure class="gallery-dialog-figure">
         <img class="gallery-dialog-img" alt="" />
         <figcaption class="gallery-dialog-caption"></figcaption>
       </figure>
-      <button class="gallery-dialog-nav gallery-dialog-next" type="button" aria-label="Next image">›</button>
+      <button class="gallery-dialog-nav gallery-dialog-next" type="button" aria-label="Next image">
+        <ChevronRight size={28} stroke-width={1.8} aria-hidden="true" />
+      </button>
     </dialog>
 
     <footer class="site-footer">
@@ -527,7 +532,6 @@ const galleryImages = [
       const galleryDialog = document.querySelector('.gallery-dialog');
       const galleryDialogImg = document.querySelector('.gallery-dialog-img');
       const galleryDialogCaption = document.querySelector('.gallery-dialog-caption');
-      const galleryDialogClose = document.querySelector('.gallery-dialog-close');
       const galleryDialogPrev = document.querySelector('.gallery-dialog-prev');
       const galleryDialogNext = document.querySelector('.gallery-dialog-next');
 
@@ -540,6 +544,8 @@ const galleryImages = [
       });
 
       let galleryIndex = 0;
+      let touchStartX = 0;
+      let touchStartY = 0;
 
       const renderGallery = () => {
         const item = galleryItems[galleryIndex];
@@ -572,9 +578,33 @@ const galleryImages = [
         });
       });
 
-      galleryDialogClose?.addEventListener('click', () => galleryDialog?.close());
       galleryDialogPrev?.addEventListener('click', () => stepGallery(-1));
       galleryDialogNext?.addEventListener('click', () => stepGallery(1));
+
+      galleryDialog?.addEventListener(
+        'touchstart',
+        (event) => {
+          const touch = event.changedTouches[0];
+          touchStartX = touch.clientX;
+          touchStartY = touch.clientY;
+        },
+        { passive: true },
+      );
+
+      galleryDialog?.addEventListener(
+        'touchend',
+        (event) => {
+          if (!galleryDialog.open) return;
+          const touch = event.changedTouches[0];
+          const deltaX = touch.clientX - touchStartX;
+          const deltaY = touch.clientY - touchStartY;
+          const isHorizontalSwipe = Math.abs(deltaX) > 50 && Math.abs(deltaX) > Math.abs(deltaY) * 1.4;
+
+          if (!isHorizontalSwipe) return;
+          stepGallery(deltaX < 0 ? 1 : -1);
+        },
+        { passive: true },
+      );
 
       galleryDialog?.addEventListener('click', (event) => {
         if (event.target === galleryDialog) galleryDialog.close();
